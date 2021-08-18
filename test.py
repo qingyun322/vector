@@ -8,6 +8,7 @@ class TestVectorOp(unittest.TestCase):
         self.vectorOp = wrap.vectorOp()
 
     def test_numpy_consistency(self):
+        # Test whether our implementation is consistent with the result from numpy calculation
         for i in range(1000):
             a, b, c = random(), random(), random()
             x, y, z = np.random.rand(i), np.random.rand(i), np.random.rand(i)
@@ -24,6 +25,10 @@ class TestVectorOp(unittest.TestCase):
             result = self.vectorOp.weightedSum(x, y, z)
             expected = np.zeros(i)
             self.assertListEqual(result.tolist(), expected.tolist())
-    #test_vector()
+    def test_illegal(self):
+        self.vectorOp.setScalar(1, 1, 1)
+        x, y, z = np.ones(3), np.ones(3), np.ones(4) #Vectors does not have equal length and should throw an exception when doing weighted sum.
+        with self.assertRaises(Exception):
+            result = self.vectorOp.weightedSum(x, y, z)
 if __name__ == "__main__":
     unittest.main()

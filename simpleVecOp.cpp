@@ -1,12 +1,14 @@
 #include <Eigen/Dense>
 #include "simpleVecOp.hpp"
+#include <stdexcept>
+
 using namespace Eigen;
 
-int add(int i, int j) {
-    return i + j;
-}
-
 VectorXd vectorOp::weightedSum(VectorXd x, VectorXd y, VectorXd z) {
+    if (x.size() != y.size() || y.size() != z.size()) {
+        throw std::runtime_error("Input vectors does not have equal size!");
+    }
+
     return a*x + b*y + c*z;
 }
 
